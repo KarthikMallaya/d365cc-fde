@@ -1,0 +1,323 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {},
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "2e41d0da-65b4-4fb7-bd21-e0b5110d3fbf"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "conversationId",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "The conversation/liveworkitem ID",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_1": {
+                  "title": "workstreamId",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "The workstream ID",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "dispositionCodes",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "JSON array of disposition codes",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Initialize_summaryText": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "c1ffe989-0495-40d6-a2ef-b8a0b8b8dc88"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "summaryText",
+                "type": "string",
+                "value": ""
+              }
+            ]
+          }
+        },
+        "Initialize_pollCount": {
+          "runAfter": {
+            "Initialize_summaryText": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9507a390-eed0-45f6-855a-33c10ebde0b4"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "pollCount",
+                "type": "integer",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "Do_until_summary_found": {
+          "actions": {
+            "Increment_pollCount": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "46920b79-1d25-44d5-8d35-6a1f9ad13dab"
+              },
+              "type": "IncrementVariable",
+              "inputs": {
+                "name": "pollCount",
+                "value": 1
+              }
+            },
+            "List_conversation_insights": {
+              "runAfter": {
+                "Increment_pollCount": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "7da31fd3-6622-457e-91a7-65ce0d12ea59"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "msdyn_conversationinsights",
+                  "$filter": "_msdyn_conversationid_value eq '@{triggerBody()['text']}'",
+                  "$top": 1
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Check_if_summary_exists": {
+              "actions": {
+                "Set_summaryText": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "9f8faf52-b840-4c6f-a555-9695416785ad"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "summaryText",
+                    "value": "@{first(outputs('List_conversation_insights')?['body/value'])?['msdyn_copilotsummary']}"
+                  }
+                }
+              },
+              "runAfter": {
+                "List_conversation_insights": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {
+                  "Wait_2_seconds": {
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "85990098-c523-48c5-814c-4cb128c06adc"
+                    },
+                    "type": "Wait",
+                    "inputs": {
+                      "interval": {
+                        "count": 2,
+                        "unit": "Second"
+                      }
+                    }
+                  }
+                }
+              },
+              "expression": {
+                "and": [
+                  {
+                    "greater": [
+                      "@length(outputs('List_conversation_insights')?['body/value'])",
+                      0
+                    ]
+                  }
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "fb5c507e-651a-4f4b-bbb0-0341e6686e53"
+              },
+              "type": "If"
+            }
+          },
+          "runAfter": {
+            "Initialize_pollCount": [
+              "Succeeded"
+            ]
+          },
+          "expression": "@or(greaterOrEquals(variables('pollCount'),15),not(empty(variables('summaryText'))))",
+          "limit": {
+            "count": 60,
+            "timeout": "PT5M"
+          },
+          "metadata": {
+            "operationMetadataId": "fbd5cec3-37df-4106-ac17-388a9ce836fa"
+          },
+          "type": "Until"
+        },
+        "Check_summary_found": {
+          "actions": {
+            "Run_a_prompt": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "9f381383-624c-4d32-a108-e0c5ca504b87",
+                "flowSystemMetadata": {
+                  "portalOperationId": "aibuilderpredict_customprompt",
+                  "portalOperationGroup": "aibuilder",
+                  "portalOperationApiDisplayNameOverride": "AI Builder",
+                  "portalOperationIconOverride": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/aiBuilderNew.51dbdb6b.png",
+                  "portalOperationBrandColorOverride": "#0A76C4",
+                  "portalOperationApiTierOverride": "Standard"
+                }
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "aibuilderpredict_customprompt",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "recordId": "98737408-057e-42a8-bbcd-12134a4c64e0",
+                  "item/requestv2/Codes": "@triggerBody()['text_2']",
+                  "item/requestv2/Summary": "@variables('summaryText')"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Build_success_response": {
+              "runAfter": {
+                "Run_a_prompt": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "77c5a282-08a1-4c4f-9a42-339eb121d717"
+              },
+              "type": "Compose",
+              "inputs": "@outputs('Run_a_prompt')?['body/responsev2/predictionOutput/text']"
+            }
+          },
+          "runAfter": {
+            "Do_until_summary_found": [
+              "Succeeded"
+            ]
+          },
+          "else": {
+            "actions": {
+              "Build_no_summary_response": {
+                "runAfter": {},
+                "metadata": {
+                  "operationMetadataId": "e401c013-fa86-4ce1-b816-9a29c0bfeea4"
+                },
+                "type": "Compose",
+                "inputs": {
+                  "success": false,
+                  "summary": "",
+                  "recommendations": [],
+                  "error": "No Copilot summary found after polling"
+                }
+              }
+            }
+          },
+          "expression": {
+            "and": [
+              {
+                "not": {
+                  "equals": [
+                    "@variables('summaryText')",
+                    ""
+                  ]
+                }
+              }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "27828341-937b-4445-9129-424c139d2434"
+          },
+          "type": "If"
+        },
+        "Respond_to_PowerApp": {
+          "runAfter": {
+            "Check_summary_found": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "07942412-8f26-4725-8eb1-7a265da78f39"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "response": "@{if(not(empty(variables('summaryText'))),outputs('Build_success_response'),outputs('Build_no_summary_response'))}"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": {
+                  "title": "response",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

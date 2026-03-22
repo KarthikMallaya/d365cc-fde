@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "D365 CCaaS Dialer Helper",
+  "version": "4.0.0",
+  "description": "Enterprise-grade auto-population of country/region code in Dynamics 365 Contact Center dialer",
+  "author": "Microsoft D365 CC FDE Team",
+  "permissions": ["storage", "activeTab", "scripting", "webNavigation"],
+  "host_permissions": [
+    "https://*.dynamics.com/*",
+    "https://ccaas-embed-prod.azureedge.net/*",
+    "https://ccaas-embed-internal-prod.azureedge.net/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/d365logo.png",
+      "32": "icons/d365logo.png",
+      "48": "icons/d365logo.png",
+      "128": "icons/d365logo.png"
+    }
+  },
+  "icons": {
+    "16": "icons/d365logo.png",
+    "32": "icons/d365logo.png",
+    "48": "icons/d365logo.png",
+    "128": "icons/d365logo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.dynamics.com/*",
+        "https://ccaas-embed-prod.azureedge.net/*",
+        "https://ccaas-embed-internal-prod.azureedge.net/*",
+        "https://*.publix.com/*",
+        "https://*.publix.io/*",
+        "https://*.service-now.com/*",
+        "https://*.servicenow.com/*"
+      ],
+      "js": ["content/content.js"],
+      "css": ["content/content.css"],
+      "run_at": "document_idle",
+      "all_frames": true,
+      "match_about_blank": true
+    }
+  ]
+}
