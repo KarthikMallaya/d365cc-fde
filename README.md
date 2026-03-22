@@ -1,14 +1,10 @@
 # Project
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+We are the Dynamics 365 Contact Center Forward Deployment Engineering team. As part of the product group, we work directly with strategic customers to design, build, and deliver successful Dynamics 365 Contact Center implementations.
 
 As the maintainer of this project, please make a few updates:
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+As we support these engagements, we develop reusable tools, patterns, and implementation assets that help accelerate future deployments and improve product adoption across customers, collected in this repository.
 
 ## Contributing
 
