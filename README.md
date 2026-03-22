@@ -1,29 +1,270 @@
-# Project
+<div align="center">
 
-We are the Dynamics 365 Contact Center Forward Deployment Engineering team. As part of the product group, we work directly with strategic customers to design, build, and deliver successful Dynamics 365 Contact Center implementations.
+<img src="./assets/d365cc-logo.png" width="80" alt="D365 Contact Center" />
 
-As the maintainer of this project, please make a few updates:
+# Dynamics 365 Contact Center
+### Field Engineering Toolkit
 
-As we support these engagements, we develop reusable tools, patterns, and implementation assets that help accelerate future deployments and improve product adoption across customers, collected in this repository.
+<br />
+
+*Crafted with care for contact center excellence*
+
+<br />
+
+**Production-ready tools that make contact center agents more efficient**
+
+<br />
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
+[![GitHub issues](https://img.shields.io/github/issues/microsoft/d365cc-fde)](https://github.com/microsoft/d365cc-fde/issues)
+[![GitHub stars](https://img.shields.io/github/stars/microsoft/d365cc-fde)](https://github.com/microsoft/d365cc-fde/stargazers)
+[![Manifest V3](https://img.shields.io/badge/Chrome-Manifest%20V3-4285F4?logo=googlechrome&logoColor=white)](https://developer.chrome.com/docs/extensions/mv3/intro/)
+[![Edge Compatible](https://img.shields.io/badge/Edge-Compatible-0078D7?logo=microsoftedge&logoColor=white)](https://microsoftedge.microsoft.com)
+
+<br />
+
+[**Get Started**](#quick-start) · [**Tools**](#available-tools) · [**Agent Templates**](#agent-templates) · [**Contributing**](#contributing)
+
+<br />
+
+---
+
+</div>
+
+## The Problem We Solve
+
+Contact center agents handle **hundreds of interactions daily**. Every extra click, every unnecessary dropdown scroll, every repeated action adds up to **hours of lost productivity**.
+
+We build tools that eliminate these friction points.
+
+<div align="center">
+
+| Metric | Before | After | Impact |
+|--------|--------|-------|--------|
+| Country selection | ~8 seconds | **Instant** | 100% time reduction |
+| Disposition coding | 15-45 seconds | **2-6 seconds** | 75-90% time reduction |
+| Classification accuracy | 65-80% | **90%+** | Reliable analytics |
+| Agent wrap-up time | Manual search | **One-click confirm** | 20,000+ hours saved/year |
+
+</div>
+
+---
+
+## Available Tools
+
+<table>
+<tr>
+<td width="120" align="center">
+<br />
+<img src="./tools/dialer-helper/icons/d365logo.png" width="60" alt="Dialer Helper" />
+<br /><br />
+</td>
+<td>
+
+### [Dialer Helper](./tools/dialer-helper/)
+
+**Auto-fill country codes in the D365 Contact Center dialer**
+
+Stop scrolling through 200+ countries for every external transfer. Set your preferred country once, and it's automatically selected every time.
+
+[![Version](https://img.shields.io/badge/version-4.0.0-blue)](#)
+[![Chrome](https://img.shields.io/badge/Chrome-88+-success?logo=googlechrome&logoColor=white)](#)
+[![Edge](https://img.shields.io/badge/Edge-88+-success?logo=microsoftedge&logoColor=white)](#)
+
+**Features:** Auto-fill · Shadow DOM support · ServiceNow embed support · Custom URL config · Debug mode
+
+[**Install Now →**](./tools/dialer-helper/#installation)
+
+</td>
+</tr>
+<tr>
+<td width="120" align="center">
+<br />
+<img src="./assets/d365cc-logo.png" width="60" alt="AI Disposition Codes" />
+<br /><br />
+</td>
+<td>
+
+### [AI Disposition Codes](./tools/ai-disposition-codes/)
+
+**AI-powered disposition code recommendations at conversation end**
+
+Stop scrolling through 200+ disposition codes. AI analyzes the conversation summary and recommends the right codes instantly. Agents confirm with one click.
+
+[![Version](https://img.shields.io/badge/version-1.0.0.2-blue)](#)
+[![Platform](https://img.shields.io/badge/Power%20Platform-Solution-742774)](#)
+[![AI](https://img.shields.io/badge/AI%20Builder-GPT--4.1--mini-00A67E)](#)
+
+**Features:** AI recommendations · Confidence scoring · One-click confirm · 75-90% time reduction · Dataverse native
+
+[**Deploy Now →**](./tools/ai-disposition-codes/#11-deployment-guide)
+
+</td>
+</tr>
+</table>
+
+<details>
+<summary><b>Want more tools?</b></summary>
+
+<br />
+
+We build tools based on real problems we encounter in the field. If you have an idea for a tool that would help contact center agents, we'd love to hear it.
+
+[Open a feature request →](https://github.com/microsoft/d365cc-fde/issues/new?template=feature_request.md)
+
+</details>
+
+---
+
+## Agent Templates
+
+Production-tested templates for real-time voice agents (Speech-to-Speech). Each template is a parameterized configuration you can customize for your organization.
+
+<div align="center">
+
+| Industry | Template | Use Case |
+|----------|----------|----------|
+| [Retail](./tools/agent-templates/retail/) | [Store Routing](./tools/agent-templates/retail/store-routing/) | Multi-department call routing |
+| [Professional Services](./tools/agent-templates/professional-services/) | [Appointment Management](./tools/agent-templates/professional-services/appointment-management/) | Customer identification and scheduling |
+
+</div>
+
+**What's included:**
+
+- Parameterized JSON templates with `{{VARIABLE}}` placeholders
+- Example variable files for quick customization  
+- JSON Schema for validation
+- Comprehensive documentation
+
+[**Browse Templates →**](./tools/agent-templates/)
+
+---
+
+## Quick Start
+
+### Option 1: Install a Tool (Recommended)
+
+Each tool has its own installation guide. Start with:
+
+```
+tools/
+└── dialer-helper/        ← Start here
+    └── README.md         ← Installation instructions
+```
+
+**[→ Install Dialer Helper](./tools/dialer-helper/#installation)**
+
+### Option 2: Clone the Repository
+
+```bash
+# Clone the repo
+git clone https://github.com/microsoft/d365cc-fde.git
+
+# Navigate to a tool
+cd d365cc-fde/tools/dialer-helper
+
+# Follow the tool's README for installation
+```
+
+---
 
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit [Contributor License Agreements](https://cla.opensource.microsoft.com).
+We welcome contributions from the community! Whether you're fixing bugs, adding features, or improving documentation, your help makes these tools better for everyone.
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+<div align="center">
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+| I want to... | Start here |
+|--------------|------------|
+| Report a bug | [Open an issue](https://github.com/microsoft/d365cc-fde/issues/new?template=bug_report.md) |
+| Request a feature | [Feature request](https://github.com/microsoft/d365cc-fde/issues/new?template=feature_request.md) |
+| Contribute code | [Contributing guide](./CONTRIBUTING.md) |
+| Ask a question | [GitHub Discussions](https://github.com/microsoft/d365cc-fde/discussions) |
+| Report security issue | [Security policy](./SECURITY.md) |
+
+</div>
+
+### Development Setup
+
+```bash
+# Fork and clone
+git clone https://github.com/YOUR_USERNAME/d365cc-fde.git
+cd d365cc-fde
+
+# Create a branch
+git checkout -b feature/my-awesome-feature
+
+# Make changes, then submit a PR
+```
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines.
+
+---
+
+## What's Next
+
+We don't publish a fixed roadmap. Instead, we build tools based on:
+
+- **Real problems** we encounter working with enterprise customers
+- **Community requests** from feature requests and discussions
+- **Opportunities** to improve agent efficiency
+
+<div align="center">
+
+| Want to influence what we build? |
+|----------------------------------|
+| [Start a discussion](https://github.com/microsoft/d365cc-fde/discussions) |
+| [Request a feature](https://github.com/microsoft/d365cc-fde/issues/new?template=feature_request.md) |
+
+</div>
+
+---
+
+## Resources
+
+<div align="center">
+
+| Resource | Description |
+|----------|-------------|
+| [**D365 Contact Center Docs**](https://learn.microsoft.com/dynamics365/contact-center/) | Official Microsoft documentation |
+| [**Chrome Extension Development**](https://developer.chrome.com/docs/extensions/) | Build browser extensions |
+| [**Manifest V3 Migration**](https://developer.chrome.com/docs/extensions/mv3/intro/) | Extension architecture guide |
+
+</div>
+
+---
+
+## About Us
+
+This repository is maintained by the **Dynamics 365 Contact Center Forward Deployment Engineering** team at Microsoft. We work directly with enterprise customers to deliver successful contact center implementations.
+
+The tools here are born from real-world challenges we've encountered and solved. We open-source them so everyone can benefit.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE) - use it, modify it, share it.
+
+---
 
 ## Trademarks
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
-trademarks or logos is subject to and must follow
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft trademarks or logos is subject to and must follow [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general). Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship. Any use of third-party trademarks or logos are subject to those third-party's policies.
+
+---
+
+<div align="center">
+
+<br />
+
+<img src="./assets/d365cc-logo.png" width="40" alt="D365 Contact Center" />
+
+*Crafted with care by the D365 Contact Center FDE Team*
+
+<br />
+
+[Back to top](#dynamics-365-contact-center)
+
+</div>

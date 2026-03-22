@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D365 CCaaS Dialer Helper</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <img src="../icons/d365logo.png" alt="Dynamics 365" class="logo">
+      <h1>D365 CCaaS Dialer Helper</h1>
+      <p class="subtitle">Auto-populate country code for external transfers</p>
+      <span class="badge">v<span id="version"></span> • Works on custom URLs</span>
+    </header>
+
+    <!-- Custom URLs Section -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-indicator orange"></div>
+        <h2>Allowed URLs</h2>
+      </div>
+      <p class="section-desc">Configure which URLs the extension should work on. Default URLs are pre-configured.</p>
+      
+      <div class="url-list" id="urlList">
+        <!-- URLs will be populated here -->
+      </div>
+      
+      <div class="add-url-row">
+        <input type="text" id="newUrlInput" class="url-input" placeholder="https://example.com/* or https://*.mycompany.com/*">
+        <button class="add-url-btn" id="addUrlBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add URL
+        </button>
+      </div>
+      <p class="url-hint">Use * as wildcard for subdomains or paths</p>
+    </section>
+
+    <!-- Country Selection Section -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-indicator"></div>
+        <h2>Country Settings</h2>
+      </div>
+      <p class="section-desc">Select your preferred country/region for external transfer dialing.</p>
+      
+      <label class="field-label">Preferred Country *</label>
+      <div class="select-wrapper">
+        <select id="countrySelect">
+          <option value="">Loading countries...</option>
+        </select>
+        <svg class="select-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Options Section -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-indicator purple"></div>
+        <h2>Options</h2>
+      </div>
+      
+      <div class="option-row">
+        <div class="option-info">
+          <span class="option-label">Enable Auto-fill</span>
+          <span class="option-desc">Automatically populate fields when transfer dialog opens</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="enabledToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <!-- Transfer/Consult Section -->
+      <div class="section-divider">Transfer/Consult</div>
+      
+      <div class="option-row">
+        <div class="option-info">
+          <span class="option-label">Enable Transfer/Consult</span>
+          <span class="option-desc">Auto-fill when transferring or consulting</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="enableTransferToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="option-row sub-option">
+        <div class="option-info">
+          <span class="option-label">Fill Country/Region</span>
+          <span class="option-desc">Auto-select country dropdown</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="transferFillCountryToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="option-row sub-option">
+        <div class="option-info">
+          <span class="option-label">Fill Dial Code</span>
+          <span class="option-desc">Auto-fill dial code (e.g., +1)</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="transferFillDialCodeToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <!-- Outbound Dialer Section -->
+      <div class="section-divider">Outbound Dialer</div>
+      
+      <div class="option-row">
+        <div class="option-info">
+          <span class="option-label">Enable Outbound Dialer</span>
+          <span class="option-desc">Auto-fill for outbound calls</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="enableOutboundDialerToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="option-row sub-option">
+        <div class="option-info">
+          <span class="option-label">Fill Country/Region</span>
+          <span class="option-desc">Auto-select country dropdown</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="outboundFillCountryToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="option-row sub-option">
+        <div class="option-info">
+          <span class="option-label">Fill Dial Code</span>
+          <span class="option-desc">Override dial code field (D365 may auto-fill)</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="outboundFillDialCodeToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <!-- Notifications Section -->
+      <div class="section-divider">Notifications</div>
+      
+      <div class="option-row">
+        <div class="option-info">
+          <span class="option-label">Show Notifications</span>
+          <span class="option-desc">Display confirmation when fields are filled</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toastToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <button class="action-button" id="fillNowBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      Fill Country Now
+    </button>
+
+    <button class="action-button secondary" id="scanBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+      </svg>
+      Scan &amp; Configure Fields
+    </button>
+
+    <!-- Current Field Configuration -->
+    <div class="field-config" id="fieldConfig">
+      <div class="field-config-header">
+        <span>⚙️ Field Configuration</span>
+        <button class="clear-config-btn" id="clearConfigBtn" title="Clear saved configuration">✕ Clear</button>
+      </div>
+      <div class="field-config-item" id="countryFieldConfig">
+        <span class="field-label">Country:</span>
+        <span class="field-value" id="countryFieldValue">Not configured</span>
+      </div>
+      <div class="field-config-item" id="phoneFieldConfig">
+        <span class="field-label">Phone:</span>
+        <span class="field-value" id="phoneFieldValue">Not configured</span>
+      </div>
+    </div>
+
+    <!-- Scan Results (hidden by default) -->
+    <div class="scan-results hidden" id="scanResults">
+      <div class="scan-results-header">
+        <span>🔍 Select Your Fields</span>
+        <button class="close-btn" id="closeScanResults">×</button>
+      </div>
+      <div class="scan-instructions">
+        Click on an element to assign it as Country or Phone field
+      </div>
+      <div class="scan-results-content" id="scanResultsContent">
+        <!-- Results will be populated here -->
+      </div>
+      <div class="scan-results-footer">
+        <button class="save-config-btn" id="saveConfigBtn">💾 Save Configuration</button>
+      </div>
+    </div>
+
+    <!-- Status with Debug Toggle -->
+    <div class="status-bar">
+      <div class="status" id="status">
+        <div class="status-dot"></div>
+        <span id="statusText">Ready</span>
+      </div>
+      <div class="debug-toggle">
+        <span class="debug-label">Debug</span>
+        <label class="toggle small">
+          <input type="checkbox" id="debugToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <script src="countries.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
